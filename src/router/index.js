@@ -1,32 +1,38 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
-const DashboardLayout = () => import(/*webpackChunkName:"dashboard"*/'../components/dashboardLayout.vue')
-
-function loadView(view){
-    return()=>import(/*webpackChunkName:"view-[request]"*/`../components/dashboardContents/${view}.vue`)
+import Vue from 'vue' 
+import Router from 'vue-router' 
+const DashboardLayout = () => import(/* webpackChunkName: "dashboard" */ '../components/dashboardLayout.vue') 
+const HelloWorld = () => import(/* webpackChunkName: "dashboard" */ '../components/HelloWorld.vue') 
+function loadView(view) {
+    return () => import(/* webpackChunkName: "view-[request]" */ `../components/dashboardContents/${view}.vue`) 
 }
-
-const routes = [
+const routes = [ 
     {
-        path:'/',
-        component: DashboardLayout,
-        children: [
-            {
-                name: 'UserController',
-                path: '',
-                component: loadView('userController')
-            },
-            {
-                name: 'KendaraanController',
-                path: 'vehicle',
-                component: loadView('kendaraanController')
-            }
-        ]
+        path: '/', 
+        component: HelloWorld, 
     },
-]
-Vue.use(Router)
+    { 
+        path: '/components/dashboardLayout.vue', 
+        component: DashboardLayout, 
+        children: [ 
+            { 
+                name: 'UserController', 
+                path: '/dashboardContents/userController', 
+                component: loadView('userController') 
+            },
+            { 
+                name: 'KendaraanController', 
+                path: '/dashboardContents/kendaraanController', 
+                component: loadView('kendaraanController') 
+            },
+            { 
+                name: 'loginPage', 
+                path: '/login', 
+                component: loadView('loginPage') 
+            },
+        ] 
+    },
+] 
 
-const router = new Router({mode: 'history', routes: routes})
-
+Vue.use(Router) 
+const router = new Router({mode: 'history', routes: routes}) 
 export default router
